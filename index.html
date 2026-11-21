@@ -1,0 +1,326 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifier - Site Maintenance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 2rem;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, white, transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 90px 40px, white, transparent),
+                radial-gradient(2px 2px at 160px 120px, rgba(255,255,255,0.9), transparent),
+                radial-gradient(1px 1px at 230px 80px, white, transparent),
+                radial-gradient(2px 2px at 300px 150px, rgba(255,255,255,0.7), transparent),
+                radial-gradient(1px 1px at 370px 50px, white, transparent),
+                radial-gradient(2px 2px at 450px 180px, rgba(255,255,255,0.8), transparent),
+                radial-gradient(1px 1px at 520px 90px, white, transparent),
+                radial-gradient(2px 2px at 600px 200px, rgba(255,255,255,0.9), transparent);
+            background-size: 650px 250px;
+            animation: twinkle 5s ease-in-out infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .container {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            max-width: 600px;
+            width: 100%;
+            padding: 3rem;
+            text-align: center;
+            animation: slideUp 0.6s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .rocket-container {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        .rocket-svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
+        
+        .date-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        p {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .progress-section {
+            margin: 2rem auto;
+            max-width: 420px;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+        
+        .progress-label .time-left {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+        
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 50px;
+            height: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #e94560 0%, #ff6b6b 100%);
+            border-radius: 50px;
+            transition: width 1s ease-out;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 100%
+            );
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-percent {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #e94560;
+            margin-top: 0.75rem;
+        }
+        
+        .footer-text {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            margin-top: 2rem;
+        }
+        
+        .footer-text a {
+            color: #e94560;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .footer-text a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 2rem;
+            }
+            
+            .rocket-container {
+                width: 140px;
+                height: 140px;
+            }
+            
+            h1 {
+                font-size: 1.75rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div class="rocket-container">
+            <svg class="rocket-svg" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                <!-- Rocket flames -->
+                <ellipse cx="64" cy="115" rx="12" ry="8" fill="#ff6b6b" opacity="0.6">
+                    <animate attributeName="ry" values="8;12;8" dur="0.3s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.6;0.9;0.6" dur="0.3s" repeatCount="indefinite"/>
+                </ellipse>
+                <ellipse cx="64" cy="112" rx="8" ry="6" fill="#ffa502">
+                    <animate attributeName="ry" values="6;10;6" dur="0.25s" repeatCount="indefinite"/>
+                </ellipse>
+                <ellipse cx="64" cy="110" rx="5" ry="4" fill="#fff3b0">
+                    <animate attributeName="ry" values="4;7;4" dur="0.2s" repeatCount="indefinite"/>
+                </ellipse>
+                
+                <!-- Rocket fins -->
+                <path d="M44 85 L32 100 L48 95 Z" fill="#e94560"/>
+                <path d="M84 85 L96 100 L80 95 Z" fill="#e94560"/>
+                
+                <!-- Rocket body -->
+                <path d="M52 95 L52 50 Q52 25 64 15 Q76 25 76 50 L76 95 Z" fill="#f8f9fa"/>
+                <path d="M52 95 L52 50 Q52 25 64 15 Q64 25 64 50 L64 95 Z" fill="#e9ecef"/>
+                
+                <!-- Rocket window -->
+                <circle cx="64" cy="50" r="12" fill="#16213e"/>
+                <circle cx="64" cy="50" r="9" fill="#0f3460"/>
+                <circle cx="61" cy="47" r="3" fill="rgba(255,255,255,0.3)"/>
+                
+                <!-- Rocket tip -->
+                <path d="M52 50 Q52 25 64 15 Q76 25 76 50" fill="#e94560"/>
+                
+                <!-- Rocket base -->
+                <rect x="52" y="90" width="24" height="8" rx="2" fill="#dee2e6"/>
+            </svg>
+        </div>
+        
+        <h1>We'll be back soon!</h1>
+        
+        <div class="date-badge">
+            🚀 Monday, January 5th, 2026
+        </div>
+        
+        <p>
+            We're performing infrastructure upgrades to make Notifier faster and more reliable. 
+            Back by 2 PM PST!
+        </p>
+        
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>Until we're back</span>
+                <span class="time-left" id="timeLeft">Calculating...</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="progress-percent" id="progressPercent">0% complete</div>
+        </div>
+        
+        <p class="footer-text">
+            Questions? Reach out at <a href="mailto:support@notifier.so">support@notifier.so</a>
+        </p>
+    </div>
+
+    <script>
+        function updateProgress() {
+            // Maintenance window: Monday Jan 5, 2026 from 8 AM PST to 2 PM PST
+            const startTime = new Date('2026-01-05T08:00:00-08:00').getTime();
+            const endTime = new Date('2026-01-05T14:00:00-08:00').getTime();
+            const now = Date.now();
+            
+            const totalDuration = endTime - startTime;
+            const elapsed = now - startTime;
+            
+            let progress = Math.max(0, Math.min(100, (elapsed / totalDuration) * 100));
+            
+            const timeRemaining = Math.max(0, endTime - now);
+            const hours = Math.floor(timeRemaining / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+            
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress) + '% complete';
+            
+            if (timeRemaining > 0) {
+                let timeString = '';
+                if (hours > 0) timeString += hours + 'h ';
+                if (minutes > 0 || hours > 0) timeString += minutes + 'm ';
+                timeString += seconds + 's left';
+                document.getElementById('timeLeft').textContent = timeString;
+            } else {
+                document.getElementById('timeLeft').textContent = 'Any moment now!';
+                document.getElementById('progressPercent').textContent = '100% complete';
+            }
+        }
+        
+        updateProgress();
+        setInterval(updateProgress, 1000);
+    </script>
+</body>
+</html>
